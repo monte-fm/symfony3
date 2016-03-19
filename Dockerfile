@@ -67,12 +67,11 @@ RUN echo "export PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u\[\033[
 COPY configs/files/symfony2-autocomplete.bash /root/
 
 #etcKeeper
-RUN mkdir -p /root/etckeeper
-COPY configs/etckeeper.sh /root
-COPY configs/files/etckeeper-hook.sh /root/etckeeper
-RUN /root/etckeeper.sh
+#RUN mkdir -p /root/etckeeper
+#COPY configs/etckeeper.sh /root
+#COPY configs/files/etckeeper-hook.sh /root/etckeeper
+#RUN /root/etckeeper.sh
 
 
 #open ports
-EXPOSE 80 22
 EXPOSE 80 22
