@@ -1,29 +1,45 @@
 server {
-        server_name localhost;
-        root /var/www/PROJECT.com/web;
+        listen 80;
+        server_name your-domain.com;
+        client_max_body_size 20M;
+        root /var/www;
+        index index.php index.html;
+        access_log /var/log/nginx/your-access.log;
+        error_log /var/log/nginx/your-error.log;
+        set $yii_bootstrap "index.php";
+        charset utf-8;
 
-      location / {
-      # try to serve file directly, fallback to app.php
-                  try_files $uri /app.php$is_args$args;
-      }
-                 
-# DEV
-      location ~ ^/(app_dev|config)\.php(/|$) {
-          fastcgi_pass unix:/var/run/php7-fpm.sock;
-          fastcgi_split_path_info ^(.+\.php)(/.*)$;
-          include fastcgi_params;
-          fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-          fastcgi_param HTTPS off;
-      }
+location / {
+        try_files $uri @rewriteapp;
+        }
 
+location @rewriteapp {
+        rewrite ^(.*)$ /app.php/$1 last;
+    }
 
-# PROD
-      location ~ ^/app\.php(/|$) {
-          fastcgi_pass unix:/var/run/php7-fpm.sock;
-          fastcgi_split_path_info ^(.+\.php)(/.*)$;
-          include fastcgi_params;
-          fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-          fastcgi_param HTTPS off;
-          internal;
-      }
+location ~ ^/(app|app_dev|config)\.php(/|$) {
+
+        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param  HTTPS off;
+    }
+
+location ~ \.php {
+        fastcgi_index index.php;
+        fastcgi_split_path_info ^(.+\.php)(.*)$;
+        if (-f $document_root$fastcgi_script_name){
+            set $fsn $fastcgi_script_name;
+        }
+        include /etc/nginx/fastcgi_params;
+        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        }
+
+location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
+        }
 }
