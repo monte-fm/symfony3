@@ -4,7 +4,7 @@ MAINTAINER Olexander Vdovychenko <farmazin@gmail.com>
 #install Software
 RUN apt-get update -y
 RUN apt-get install -y software-properties-common python-software-properties
-RUN apt-get install -y git git-core vim nano mc nginx screen curl unzip
+RUN apt-get install -y git git-core vim nano mc nginx screen curl unzip wget
 
 #Install PHP
 RUN sudo apt-get install -y language-pack-en-base
@@ -71,6 +71,7 @@ COPY configs/files/symfony2-autocomplete.bash /root/
 RUN mkdir -p /root/etckeeper
 COPY configs/etckeeper.sh /root
 COPY configs/files/etckeeper-hook.sh /root/etckeeper
+RUN chmod +x /root/etckeeper.sh
 RUN /root/etckeeper.sh
 
 
