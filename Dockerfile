@@ -1,23 +1,27 @@
 FROM      ubuntu
 MAINTAINER Olexander Vdovychenko <farmazin@gmail.com>
-
+MAINTAINER Olexander Kutsenko    <olexander.kutsenko@gmail.com>
 #install Software
-RUN apt-get update -y
+RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y software-properties-common python-software-properties
 RUN apt-get install -y git git-core vim nano mc nginx screen curl unzip wget
+RUN apt-get install -y supervisor
 
 #Install PHP
-RUN sudo apt-get install -y language-pack-en-base
-RUN sudo LC_ALL=en_US.UTF-8 add-apt-repository ppa:ondrej/php
+RUN apt-get install -y language-pack-en-base
+RUN LC_ALL=en_US.UTF-8 add-apt-repository ppa:ondrej/php
 RUN apt-get update 
-RUN apt-get install php7.0 php7.0-cli php7.0-common php7.0-cgi php7.0-curl php7.0-imap php7.0-pgsql -y
-RUN apt-get install php7.0-sqlite3 php7.0-mysql php7.0-fpm php7.0-intl php7.0-gd php7.0-json php7.0-ldap php-memcached php-memcache php-imagick php7.0-xml php7.0-mbstring -y
+RUN apt-get install -y php7.0 php7.0-cli php7.0-common php7.0-cgi php7.0-curl php7.0-imap php7.0-pgsql
+RUN apt-get install -y php7.0-sqlite3 php7.0-mysql php7.0-fpm php7.0-intl php7.0-gd php7.0-json
+RUN apt-get install -y php-memcached php-memcache php-imagick php7.0-xml php7.0-mbstring php7.0-ctype
+
 RUN rm /etc/php/7.0/cgi/php.ini
 RUN rm /etc/php/7.0/cli/php.ini
 RUN rm /etc/php/7.0/fpm/php.ini
-COPY configs/php/phpcgi/php.ini /etc/php/7.0/cgi/php.ini
-COPY configs/php/phpcli/php.ini /etc/php/7.0/cli/php.ini
-COPY configs/php/phpfpm/php.ini /etc/php/7.0/fpm/php.ini
+
+COPY configs/php/php.ini /etc/php/7.0/cgi/php.ini
+COPY configs/php/php.ini /etc/php/7.0/cli/php.ini
+COPY configs/php/php.ini /etc/php/7.0/fpm/php.ini
 
 #MySQL install + password
 RUN echo "mysql-server mysql-server/root_password password root" | debconf-set-selections
@@ -57,8 +61,6 @@ RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpcpd
 RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpmd
 RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpcs
 
-#aliases
-RUN alias ll='ls -la' >> .bashrc
 
 #Add colorful command line
 RUN echo "force_color_prompt=yes" >> .bashrc
