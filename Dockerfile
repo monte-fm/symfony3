@@ -19,10 +19,12 @@ RUN apt-get install -y php7.0-dev php-pear
 RUN rm /etc/php/7.0/cgi/php.ini
 RUN rm /etc/php/7.0/cli/php.ini
 RUN rm /etc/php/7.0/fpm/php.ini
+RUN rm /etc/php/7.0/fpm/pool.d/www.conf
 
-COPY configs/php/php.ini /etc/php/7.0/cgi/php.ini
-COPY configs/php/php.ini /etc/php/7.0/cli/php.ini
-COPY configs/php/php.ini /etc/php/7.0/fpm/php.ini
+COPY configs/php/www.conf /etc/php/7.0/fpm/pool.d/www.conf
+COPY configs/php/php.ini  /etc/php/7.0/cgi/php.ini
+COPY configs/php/php.ini  /etc/php/7.0/cli/php.ini
+COPY configs/php/php.ini  /etc/php/7.0/fpm/php.ini
 
 #MySQL install + password
 RUN echo "mysql-server mysql-server/root_password password root" | debconf-set-selections
