@@ -10,13 +10,14 @@ RUN apt-get install -y git git-core vim nano mc nginx screen curl unzip
 RUN sudo apt-get install -y language-pack-en-base
 RUN sudo LC_ALL=en_US.UTF-8 add-apt-repository ppa:ondrej/php
 RUN apt-get update 
-RUN apt-get install php7.0 php7.0-cli php7.0-common php7.0-cgi php7.0-curl php7.0-imap php7.0-pgsql php7.0-sqlite3 php7.0-mysql php7.0-fpm php7.0-intl php7.0-gd php7.0-json php7.0-ldap php-memcached php-memcache php-imagick php7.0-xml php7.0-mbstring -y
-RUN sed -i s/^upload_max_filesize.*/upload_max_filesize\ =\ 32M/g /etc/php/7.0/fpm/php.ini
-RUN sed -i s/^upload_max_filesize.*/upload_max_filesize\ =\ 32M/g /etc/php/7.0/cgi/php.ini
-RUN sed -i s/^upload_max_filesize.*/upload_max_filesize\ =\ 32M/g /etc/php/7.0/cli/php.ini
-RUN sed -i s/^post_max_size.*/post_max_size\ =\ 32M/g /etc/php/7.0/fpm/php.ini
-RUN sed -i s/^post_max_size.*/post_max_size\ =\ 32M/g /etc/php/7.0/cgi/php.ini
-RUN sed -i s/^post_max_size.*/post_max_size\ =\ 32M/g /etc/php/7.0/cli/php.ini
+RUN apt-get install php7.0 php7.0-cli php7.0-common php7.0-cgi php7.0-curl php7.0-imap php7.0-pgsql -y
+RUN apt-get install php7.0-sqlite3 php7.0-mysql php7.0-fpm php7.0-intl php7.0-gd php7.0-json php7.0-ldap php-memcached php-memcache php-imagick php7.0-xml php7.0-mbstring -y
+RUN rm /etc/php/7.0/cgi/php.ini
+RUN rm /etc/php/7.0/cli/php.ini
+RUN rm /etc/php/7.0/fpm/php.ini
+COPY configs/php/phpcgi/php.ini /etc/php/7.0/cgi/php.ini
+COPY configs/php/phpcli/php.ini /etc/php/7.0/cli/php.ini
+COPY configs/php/phpfpm/php.ini /etc/php/7.0/fpm/php.ini
 
 #MySQL install + password
 RUN echo "mysql-server mysql-server/root_password password root" | debconf-set-selections
@@ -57,7 +58,7 @@ RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpmd
 RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpcs
 
 #aliases
-RUN alias ll='ls -la'
+RUN alias ll='ls -la' >> .bashrc
 
 #Add colorful command line
 RUN echo "force_color_prompt=yes" >> .bashrc
@@ -67,10 +68,10 @@ RUN echo "export PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u\[\033[
 COPY configs/files/symfony2-autocomplete.bash /root/
 
 #etcKeeper
-#RUN mkdir -p /root/etckeeper
-#COPY configs/etckeeper.sh /root
-#COPY configs/files/etckeeper-hook.sh /root/etckeeper
-#RUN /root/etckeeper.sh
+RUN mkdir -p /root/etckeeper
+COPY configs/etckeeper.sh /root
+COPY configs/files/etckeeper-hook.sh /root/etckeeper
+RUN /root/etckeeper.sh
 
 
 #open ports
