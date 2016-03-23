@@ -1,21 +1,21 @@
-#Create container
+# Create container
 ```
 docker run -i -t -d --name=symfony3 -h=symfony3 -p 1080:80 -p 1022:22 cristo/symfony3 /bin/bash
 ```
 
 
 
-#MySQL
+# MySQL
 ```
 user: root 
 password: root
 ```
-#SSH
+# SSH
 ```
 ssh -p1022 root@localhost
 password: root
 ```
-#NGINX server config file for communicate with docker
+# NGINX server config file for communicate with docker
 
 ```
 server {
@@ -33,7 +33,7 @@ server {
 }
 ```
 
-#Code standard tests
+# Code standard tests
 Installed packets: 
 
 http://phpmd.org/
@@ -74,7 +74,7 @@ ant run-code-standards
 # etcKeeper 
 Added etcKeeper - autocommit on exit to /etc git local repository
 
-#Origin
+# Origin
 [Docker Hub] (https://registry.hub.docker.com/u/cristo/symfony3/)
 
 [Git Hub] (https://github.com/monte-fm/symfony3)
