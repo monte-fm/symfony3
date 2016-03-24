@@ -1,6 +1,6 @@
 # Create container
 ```
-docker run -i -t -d --name=symfony3 -h=symfony3 -p 1080:80 -p 1022:22 cristo/symfony3 /bin/bash
+docker run -it -d --name=symfony3 -h=symfony3 -p 1080:80 -p 1022:22 cristo/symfony3 /bin/bash
 ```
 
 
