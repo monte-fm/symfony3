@@ -1,5 +1,4 @@
 FROM      ubuntu
-MAINTAINER Olexander Vdovychenko <farmazin@gmail.com>
 MAINTAINER Olexander Kutsenko    <olexander.kutsenko@gmail.com>
 
 #install Software
@@ -30,6 +29,7 @@ COPY configs/php/php.ini  /etc/php/7.0/fpm/php.ini
 RUN echo "mysql-server mysql-server/root_password password root" | debconf-set-selections
 RUN echo "mysql-server mysql-server/root_password_again password root" | debconf-set-selections
 RUN sudo apt-get  install -y mysql-server mysql-client
+COPY configs/mysql/my.cnf /etc/mysql/my.cnf
 
 # SSH service
 RUN sudo apt-get install -y openssh-server openssh-client
