@@ -1,6 +1,12 @@
 FROM      ubuntu
 MAINTAINER Olexander Kutsenko    <olexander.kutsenko@gmail.com>
 
+#Create docker user
+RUN mkdir -p /home/docker
+RUN useradd -d /home/docker -s /bin/bash -M -N -G www-data,sudo docker
+RUN chown -R docker:www-data /home/docker
+RUN echo docker:docker | chpasswd
+
 #install Software
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y software-properties-common python-software-properties
@@ -79,9 +85,6 @@ RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpcs
 #Add colorful command line
 RUN echo "force_color_prompt=yes" >> .bashrc
 RUN echo "export PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u\[\033[01;33m\]@\[\033[01;36m\]\h \[\033[01;33m\]\w \[\033[01;35m\]\$ \[\033[00m\]'" >> .bashrc
-
-#Autocomplete symfony2
-COPY configs/files/symfony2-autocomplete.bash /root/
 
 #etcKeeper
 RUN mkdir -p /root/etckeeper
