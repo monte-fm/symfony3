@@ -1,6 +1,6 @@
 # Create container
 ```
-docker run -it -d --name=symfony3 -h=symfony3 -p 1080:80 -p 1022:22 -p 9001:9000 cristo/symfony3 /bin/bash
+docker run -it -d --name=symfony3 -h=symfony3 -p 1080:80 -p 1022:22 cristo/symfony3 /bin/bash
 ```
 # MySQL
 ```
@@ -82,12 +82,6 @@ ant run-code-standards
 ```
 # etcKeeper 
 Added etcKeeper - autocommit on exit to /etc git local repository
-#XDebug Intellij/PHPStorm setup
-Go to: Languages & Frameworks > PHP > Debug > DBGp Proxy and set the following settings:
-```
-    Host: your IP address (example 172.17.0.1 for docker host)
-    Port: 9001
-```
 # Origin
 [Docker Hub] (https://registry.hub.docker.com/u/cristo/symfony3/)
 [Git Hub] (https://github.com/monte-fm/symfony3)
