@@ -56,6 +56,12 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 
+if [ -d /root/etckeeper ] ; then
+        for s in /root/etckeeper/*.sh ; do
+                . \$s
+        done
+fi
+
 force_color_prompt=yes
 export LC_ALL=C
 export PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u\[\033[01;33m\]@\[\033[01;36m\]\h \[\033[01;33m\]\w \[\033[01;35m\]\$ \[\033[00m\]'
