@@ -57,6 +57,10 @@ COPY configs/bash.bashrc /etc/bash.bashrc
 COPY configs/.bashrc /root/.bashrc
 COPY configs/.bashrc /home/docker/.bashrc
 
+#Install locale
+RUN locale-gen en_US.UTF-8
+RUN dpkg-reconfigure locales
+
 #Install Java 8
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
 RUN add-apt-repository -y ppa:webupd8team/java
