@@ -1,6 +1,6 @@
 # Create container
 ```
-docker run -it -d --name=symfony3 -h=symfony3 -p 1080:80 -p 1022:22 -p 9000:9000 cristo/symfony3 /bin/bash
+docker run -it -d --name=symfony3 -h=symfony3 -p 1080:80 -p 1022:22 -p 9001:9000 cristo/symfony3 /bin/bash
 ```
 # MySQL
 ```

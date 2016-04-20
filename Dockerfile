@@ -6,6 +6,7 @@ RUN mkdir -p /home/docker
 RUN useradd -d /home/docker -s /bin/bash -M -N -G www-data,sudo docker
 RUN chown -R docker:www-data /home/docker
 RUN echo docker:docker | chpasswd
+RUN usermod -G www-data,users www-data
 
 #install Software
 RUN apt-get update && apt-get upgrade -y
@@ -53,6 +54,8 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 COPY configs/autostart.sh /root/autostart.sh
 RUN  chmod +x /root/autostart.sh
 COPY configs/bash.bashrc /etc/bash.bashrc
+COPY configs/.bashrc /root/.bashrc
+COPY configs/.bashrc /home/docker/.bashrc
 
 #Install Java 8
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886
@@ -81,11 +84,6 @@ RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpcpd
 RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpmd
 RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpcs
 
-
-#Add colorful command line
-RUN echo "force_color_prompt=yes" >> .bashrc
-RUN echo "export PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u\[\033[01;33m\]@\[\033[01;36m\]\h \[\033[01;33m\]\w \[\033[01;35m\]\$ \[\033[00m\]'" >> .bashrc
-
 #etcKeeper
 RUN mkdir -p /root/etckeeper
 COPY configs/etckeeper.sh /root/etckeeper.sh
@@ -94,6 +92,5 @@ RUN chmod +x /root/etckeeper/*.sh
 RUN chmod +x /root/*.sh
 RUN /root/etckeeper.sh
 
-
 #open ports
-EXPOSE 80 22
+EXPOSE 80 22 9000
