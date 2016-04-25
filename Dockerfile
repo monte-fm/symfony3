@@ -33,10 +33,14 @@ COPY configs/php/php.ini  /etc/php/7.0/cgi/php.ini
 COPY configs/php/php.ini  /etc/php/7.0/cli/php.ini
 COPY configs/php/php.ini  /etc/php/7.0/fpm/php.ini
 
-#MySQL install + password
-RUN echo "mysql-server mysql-server/root_password password root" | debconf-set-selections
-RUN echo "mysql-server mysql-server/root_password_again password root" | debconf-set-selections
-RUN sudo apt-get  install -y mysql-server mysql-client
+#Install Percona Mysql 5.6 server
+RUN wget https://repo.percona.com/apt/percona-release_0.1-3.$(lsb_release -sc)_all.deb
+RUN dpkg -i percona-release_0.1-3.$(lsb_release -sc)_all.deb
+RUN rm percona-release_0.1-3.$(lsb_release -sc)_all.deb
+RUN apt-get update
+RUN echo "percona-server-server-5.6 percona-server-server/root_password password root" | sudo debconf-set-selections
+RUN echo "percona-server-server-5.6 percona-server-server/root_password_again password root" | sudo debconf-set-selections
+RUN apt-get install -y percona-server-server-5.6
 COPY configs/mysql/my.cnf /etc/mysql/my.cnf
 
 # SSH service
