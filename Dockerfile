@@ -24,6 +24,7 @@ RUN apt-get install -y php7.0 php7.0-cli php7.0-common php7.0-cgi php7.0-curl ph
 RUN apt-get install -y php7.0-sqlite3 php7.0-mysql php7.0-fpm php7.0-intl php7.0-gd php7.0-json
 RUN apt-get install -y php-memcached php-memcache php-imagick php7.0-xml php7.0-mbstring php7.0-ctype
 RUN apt-get install -y php7.0-dev php-pear
+RUN pecl install xdebug
 RUN rm /etc/php/7.0/cgi/php.ini
 RUN rm /etc/php/7.0/cli/php.ini
 RUN rm /etc/php/7.0/fpm/php.ini
