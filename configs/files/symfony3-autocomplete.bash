@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# bash completion support for symfony2 console
+# bash completion support for symfony3 console
 #
 # Copyright (C) 2011 Matthieu Bontemps <matthieu@knplabs.com>
 # Distributed under the GNU General Public License, version 2.0.
