@@ -6,7 +6,6 @@ RUN mkdir -p /var/www
 RUN useradd -d /var/www -s /bin/bash -M -N -G www-data,sudo,root docker
 RUN echo docker:docker | chpasswd
 RUN usermod -G www-data,users www-data
-
 RUN chown -R docker:www-data /var/www
 
 #install Software
@@ -35,11 +34,6 @@ COPY configs/php/php.ini  /etc/php/7.0/cgi/php.ini
 COPY configs/php/php.ini  /etc/php/7.0/cli/php.ini
 COPY configs/php/php.ini  /etc/php/7.0/fpm/php.ini
 COPY configs/php/xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
-
-
-#Autocomplete symfony3
-COPY configs/files/symfony3-autocomplete.bash /etc/bash_completion.d/symfony3-autocomplete.bash
-
 
 #Install Percona Mysql 5.6 server
 RUN wget https://repo.percona.com/apt/percona-release_0.1-3.$(lsb_release -sc)_all.deb
@@ -86,6 +80,9 @@ RUN export JAVA_HOME=/usr/lib/jvm/java-8-oracle
 
 #ant install
 RUN sudo apt-get install -y ant
+
+#Autocomplete symfony3
+COPY configs/files/symfony3-autocomplete.bash /etc/bash_completion.d/symfony3-autocomplete.bash
 
 #Composer
 RUN cd /home
