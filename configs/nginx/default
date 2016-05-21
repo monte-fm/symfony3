@@ -1,7 +1,6 @@
 server {
-        listen *:80;
         server_name localhost;
-        root /var/www/symfony3/web;
+        root /var/www/web;
 
       location / {
       # try to serve file directly, fallback to app.php
@@ -27,6 +26,4 @@ server {
           fastcgi_param HTTPS off;
           internal;
       }
-
-
 }
