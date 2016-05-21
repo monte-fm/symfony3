@@ -1,4 +1,4 @@
-FROM      ubuntu
+FROM      ubuntu:14.04.4
 MAINTAINER Olexander Kutsenko    <olexander.kutsenko@gmail.com>
 
 #Create docker user
@@ -29,11 +29,13 @@ RUN rm /etc/php/7.0/cgi/php.ini
 RUN rm /etc/php/7.0/cli/php.ini
 RUN rm /etc/php/7.0/fpm/php.ini
 RUN rm /etc/php/7.0/fpm/pool.d/www.conf
-
 COPY configs/php/www.conf /etc/php/7.0/fpm/pool.d/www.conf
 COPY configs/php/php.ini  /etc/php/7.0/cgi/php.ini
 COPY configs/php/php.ini  /etc/php/7.0/cli/php.ini
 COPY configs/php/php.ini  /etc/php/7.0/fpm/php.ini
+COPY configs/php/xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
+
+
 
 #Install Percona Mysql 5.6 server
 RUN wget https://repo.percona.com/apt/percona-release_0.1-3.$(lsb_release -sc)_all.deb
