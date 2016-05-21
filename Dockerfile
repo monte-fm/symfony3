@@ -1,4 +1,4 @@
-FROM      ubuntu:14.04
+FROM      ubuntu:14.04.4
 MAINTAINER Olexander Kutsenko    <olexander.kutsenko@gmail.com>
 
 #Create docker user
@@ -8,6 +8,7 @@ RUN useradd -d /home/docker -s /bin/bash -M -N -G www-data,sudo,root docker
 RUN echo docker:docker | chpasswd
 RUN usermod -G www-data,users www-data
 RUN chown -R docker:www-data /var/www
+RUN chown -R docker:www-data /home/docker
 
 #install Software
 RUN apt-get update && apt-get upgrade -y
