@@ -3,7 +3,8 @@ MAINTAINER Olexander Kutsenko    <olexander.kutsenko@gmail.com>
 
 #Create docker user
 RUN mkdir -p /var/www
-RUN useradd -d /var/www -s /bin/bash -M -N -G www-data,sudo,root docker
+RUN mkdir -p /home/docker
+RUN useradd -d /home/docker -s /bin/bash -M -N -G www-data,sudo,root docker
 RUN echo docker:docker | chpasswd
 RUN usermod -G www-data,users www-data
 RUN chown -R docker:www-data /var/www
