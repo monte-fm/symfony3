@@ -8,6 +8,9 @@ shopt -s checkwinsize
 
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
+if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
 
 case "$TERM" in
     xterm-color) color_prompt=yes;;
@@ -55,6 +58,10 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+
+if [ -e /etc/bash_completion.d/symfony2-autocomplete.bash ]; then
+	. /etc/bash_completion.d/symfony2-autocomplete.bash
+fi
 
 if [ -d /root/etckeeper ] ; then
         for s in /root/etckeeper/*.sh ; do

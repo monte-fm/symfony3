@@ -1,4 +1,4 @@
-FROM      ubuntu
+FROM      ubuntu:14.04
 MAINTAINER Olexander Kutsenko    <olexander.kutsenko@gmail.com>
 
 #Create docker user
@@ -13,6 +13,7 @@ RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y software-properties-common python-software-properties
 RUN apt-get install -y git git-core vim nano mc nginx screen curl unzip wget
 RUN apt-get install -y supervisor memcached htop tmux zip
+COPY configs/nginx/default /etc/nginx/sites-available/default
 COPY configs/supervisor/cron.conf /etc/supervisor/conf.d/cron.conf
 
 #Install PHP
@@ -23,6 +24,7 @@ RUN apt-get install -y php7.0 php7.0-cli php7.0-common php7.0-cgi php7.0-curl ph
 RUN apt-get install -y php7.0-sqlite3 php7.0-mysql php7.0-fpm php7.0-intl php7.0-gd php7.0-json
 RUN apt-get install -y php-memcached php-memcache php-imagick php7.0-xml php7.0-mbstring php7.0-ctype
 RUN apt-get install -y php7.0-dev php-pear
+RUN pecl install xdebug
 RUN rm /etc/php/7.0/cgi/php.ini
 RUN rm /etc/php/7.0/cli/php.ini
 RUN rm /etc/php/7.0/fpm/php.ini
@@ -32,6 +34,8 @@ COPY configs/php/www.conf /etc/php/7.0/fpm/pool.d/www.conf
 COPY configs/php/php.ini  /etc/php/7.0/cgi/php.ini
 COPY configs/php/php.ini  /etc/php/7.0/cli/php.ini
 COPY configs/php/php.ini  /etc/php/7.0/fpm/php.ini
+COPY configs/php/xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
+RUN mkdir -p /run/php
 
 #Install Percona Mysql 5.6 server
 RUN wget https://repo.percona.com/apt/percona-release_0.1-3.$(lsb_release -sc)_all.deb
@@ -56,10 +60,10 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 
 #configs bash start
 COPY configs/autostart.sh /root/autostart.sh
-RUN  chmod +x /root/autostart.sh
+COPY configs/chown.sh /root/chown.sh
+RUN chmod +x /root/autostart.sh
+RUN chmod +x /root/chown.sh
 COPY configs/bash.bashrc /etc/bash.bashrc
-COPY configs/.bashrc /root/.bashrc
-COPY configs/.bashrc /home/docker/.bashrc
 
 #Install locale
 RUN locale-gen en_US.UTF-8
@@ -91,6 +95,11 @@ RUN composer global require "phpmd/phpmd=@stable"
 RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpcpd
 RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpmd
 RUN cd /usr/bin && ln -s ~/.composer/vendor/bin/phpcs
+
+#Autocomplete symfony2
+COPY configs/files/symfony2-autocomplete.bash /etc/bash_completion.d/symfony2-autocomplete.bash
+COPY configs/.bashrc /root/.bashrc
+COPY configs/.bashrc /home/docker/.bashrc
 
 #etcKeeper
 RUN mkdir -p /root/etckeeper
