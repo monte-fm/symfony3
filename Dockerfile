@@ -7,6 +7,8 @@ RUN useradd -d /home/docker -s /bin/bash -M -N -G www-data,sudo,root docker
 RUN chown -R docker:www-data /home/docker
 RUN echo docker:docker | chpasswd
 RUN usermod -G www-data,users www-data
+RUN mkdir -p /var/www
+RUN chown -R docker:www-data /var/www
 
 #install Software
 RUN apt-get update && apt-get upgrade -y
@@ -35,6 +37,9 @@ COPY configs/php/php.ini  /etc/php/7.0/cli/php.ini
 COPY configs/php/php.ini  /etc/php/7.0/fpm/php.ini
 COPY configs/php/xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
 
+
+#Autocomplete symfony3
+COPY configs/files/symfony3-autocomplete.bash /etc/bash_completion.d/symfony3-autocomplete.bash
 
 
 #Install Percona Mysql 5.6 server
