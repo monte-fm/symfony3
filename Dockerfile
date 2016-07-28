@@ -1,5 +1,5 @@
 FROM      ubuntu:14.04.4
-MAINTAINER Olexander Kutsenko    <olexander.kutsenko@gmail.com>
+MAINTAINER Oleksander Kutsenko    <olexander.kutsenko@gmail.com>
 
 #Create docker user
 RUN mkdir -p /var/www
