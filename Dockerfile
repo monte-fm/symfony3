@@ -12,9 +12,9 @@ RUN chown -R docker:www-data /home/docker
 
 #install Software
 RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y software-properties-common python-software-properties
-RUN apt-get install -y git git-core vim nano mc nginx screen curl unzip wget
-RUN apt-get install -y supervisor memcached htop tmux zip
+RUN apt-get install -y software-properties-common python-software-properties \
+    git git-core vim nano mc nginx screen curl unzip wget \
+    supervisor memcached htop tmux zip
 COPY configs/supervisor/cron.conf /etc/supervisor/conf.d/cron.conf
 COPY configs/nginx/default /etc/nginx/sites-available/default
 
@@ -22,10 +22,10 @@ COPY configs/nginx/default /etc/nginx/sites-available/default
 RUN apt-get install -y language-pack-en-base
 RUN LC_ALL=en_US.UTF-8 add-apt-repository ppa:ondrej/php
 RUN apt-get update 
-RUN apt-get install -y php7.0 php7.0-cli php7.0-common php7.0-cgi php7.0-curl php7.0-imap php7.0-pgsql
-RUN apt-get install -y php7.0-sqlite3 php7.0-mysql php7.0-fpm php7.0-intl php7.0-gd php7.0-json
-RUN apt-get install -y php-memcached php-memcache php-imagick php7.0-xml php7.0-mbstring php7.0-ctype
-RUN apt-get install -y php7.0-dev php-pear
+RUN apt-get install -y php7.0 php7.0-cli php7.0-common php7.0-cgi php7.0-curl php7.0-imap php7.0-pgsql \
+    php7.0-sqlite3 php7.0-mysql php7.0-fpm php7.0-intl php7.0-gd php7.0-json \
+    php-memcached php-memcache php-imagick php7.0-xml php7.0-mbstring php7.0-ctype \
+    php7.0-dev php-pear
 RUN pecl install xdebug
 RUN rm /etc/php/7.0/cgi/php.ini
 RUN rm /etc/php/7.0/cli/php.ini
@@ -75,8 +75,8 @@ RUN add-apt-repository -y ppa:webupd8team/java
 RUN apt-get update
 # Accept license non-iteractive
 RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
-RUN apt-get install -y oracle-java8-installer
-RUN apt-get install -y oracle-java8-set-default
+RUN apt-get install -y oracle-java8-installer \
+                       oracle-java8-set-default
 RUN echo "JAVA_HOME=/usr/lib/jvm/java-8-oracle" | sudo tee -a /etc/environment
 RUN export JAVA_HOME=/usr/lib/jvm/java-8-oracle
 
